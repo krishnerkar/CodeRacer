@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Inter } from "@next/font/google";
-import styles from "./page.module.css";
+import styles from "./home.module.css";
 import GithubIcon from "../public/github.svg";
 import { signIn } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";

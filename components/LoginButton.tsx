@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "../app/page.module.css";
+import styles from "../app/home.module.css";
 import GithubIcon from "../public/github.svg";
 import { signIn } from "next-auth/react";
 
