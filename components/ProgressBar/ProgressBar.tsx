@@ -7,11 +7,12 @@ import styles from "./styles.module.css";
 export default function ProgressBar({ width }: { width: number }) {
   const { data: session } = useSession();
 
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <p className={`${inter.className} ${styles.name}`}>
-          {session?.user?.name}
+          {session?.user?.name || "Guest"} 
         </p>
         <div className={styles.progress}>
           <div
