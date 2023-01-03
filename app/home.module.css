@@ -11,8 +11,13 @@
   font-weight: 400;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
   box-shadow: 0 0 0 2px #fff;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .heading {
@@ -34,9 +39,10 @@
   margin-top: 100px;
   width: 100%;
   height: 100vw;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .main {
   margin: 30px;
 }
+

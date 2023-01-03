@@ -1,9 +1,6 @@
-import Image from "next/image";
 import { Inter } from "@next/font/google";
-import styles from "./home.module.css";
-import GithubIcon from "../public/github.svg";
-import { signIn } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
+import Link from "next/link";
 import LoginButton from "./LoginButton";
 
 const inter = Inter({
@@ -22,18 +19,20 @@ export default async function Navbar() {
         alignItems: "center",
       }}
     >
-      <div>
-        <p
-          style={{
-            display: "flex",
-            fontSize: "24px",
-            fontWeight: "800",
-          }}
-          className={inter.className}
-        >
-          CodeRacer
-        </p>
-      </div>
+      <Link href="/">
+        <div>
+          <p
+            style={{
+              display: "flex",
+              fontSize: "24px",
+              fontWeight: "800",
+            }}
+            className={inter.className}
+          >
+            CodeRacer
+          </p>
+        </div>
+      </Link>
 
       {session ? (
         <div>

@@ -1,0 +1,15 @@
+.TooltipContent {
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 14px;
+  line-height: 1;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  user-select: none;
+  font-weight: 500;
+  font-style: inherit;
+}
+
+.TooltipArrow {
+  fill: #ffffff;
+}
