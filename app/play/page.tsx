@@ -1,17 +1,14 @@
 "use client";
 
 import styles from "./play.module.css";
-import homeStyles from "../home.module.css";
 import highlightjs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import { useEffect, useRef, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
-import { Tooltip } from "@/components/Tooltip/Tooltip";
 import { getSounds, Sounds } from "../../lib/sounds";
 import { motion } from "framer-motion";
 import getSnippet from "@/lib/snippets";
 import { pageAnimationVariants } from "@/lib/animation";
-import { inter, source_code } from "@/lib/fonts";
 import { skipConsecutiveSpaces, calculateSpeed } from "@/lib/utils";
 import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import RaceInfoBar from "@/components/RaceInfoBar/RaceInfoBar";
@@ -19,8 +16,6 @@ import CodeDisplay from "@/components/CodeDisplay/CodeDisplay";
 import CodeInput from "@/components/CodeInput/CodeInput";
 import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
 import NextRaceButton from "@/components/Buttons/NextRaceButton";
-
-// const code = getSnippet();
 
 export default function Play() {
   const [currCharIndex, setCurrCharIndex] = useState(0);

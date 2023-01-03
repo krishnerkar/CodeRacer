@@ -1,13 +1,13 @@
-import { inter } from "@/lib/fonts";
-import { unstable_getServerSession } from "next-auth/next";
-import Link from "next/link";
+"use client";
+
 import LoginButton from "@/components/Buttons/LoginButton";
 import styles from "./styles.module.css";
 import Logo from "./Logo";
 import User from "./User";
+import { useSession } from "next-auth/react";
 
-export default async function Navbar() {
-  const session = await unstable_getServerSession();
+export default function Navbar() {
+  const { data: session } = useSession();
 
   return (
     <div className={styles.container}>
