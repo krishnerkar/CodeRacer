@@ -4,10 +4,9 @@ import { Providers } from "./providers";
 
 export default async function RootLayout({
   children,
-}: // session,
+}: 
 {
   children: React.ReactNode;
-  // session: Session;
 }) {
   return (
     <html lang="en">
