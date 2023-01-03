@@ -11,7 +11,9 @@ export default NextAuth({
   ],
   callbacks: {
     async signIn({ profile }) {
+      // @ts-expect-error
       const username = profile?.login as string;
+      // @ts-expect-error
       const githubId = profile?.id as string;
       const email = profile?.email as string;
 
@@ -20,8 +22,6 @@ export default NextAuth({
           githubid: githubId.toString(),
         },
       });
-
-      console.log(user);
 
       if (!user) {
         await prisma.user.create({
