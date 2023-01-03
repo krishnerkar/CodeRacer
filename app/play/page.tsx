@@ -21,6 +21,8 @@ const inter = Inter({
   display: "swap",
 });
 
+//test
+
 export default function Play() {
   const correctRef = useRef<HTMLSpanElement | null>(null);
 
@@ -41,7 +43,7 @@ export default function Play() {
     })
     .join("")
     .split("");
-  
+
   const [currCharIndex, setCurrCharIndex] = useState(0);
   const [correctText, setCorrectText] = useState("");
   const [value, setValue] = useState("");
