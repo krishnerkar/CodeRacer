@@ -17,8 +17,10 @@ import ProgressBar from "@/components/ProgressBar/ProgressBar";
 import RaceInfoBar from "@/components/RaceInfoBar/RaceInfoBar";
 import CodeDisplay from "@/components/CodeDisplay/CodeDisplay";
 import CodeInput from "@/components/CodeInput/CodeInput";
+import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
+import NextRaceButton from "@/components/Buttons/NextRaceButton";
 
-const code = getSnippet();
+// const code = getSnippet();
 
 export default function Play() {
   const [currCharIndex, setCurrCharIndex] = useState(0);
@@ -31,6 +33,7 @@ export default function Play() {
   const [percentageOfRaceFinished, setPercentageOfRaceFinished] = useState(0);
   const [grossWPM, setGrossWPM] = useState(0);
   const [correctlyTypedCharacters, setCorrectlyTypedCharacters] = useState(0);
+  const [code, setCode] = useState("");
 
   const correctRef = useRef<HTMLSpanElement | null>(null);
   const soundsRef = useRef<Sounds>();
@@ -42,6 +45,13 @@ export default function Play() {
   if (!soundsRef.current && typeof window !== "undefined") {
     soundsRef.current = getSounds();
   }
+
+  useEffect(() => {
+    const code = getSnippet();
+    setCode(code);
+    setIsRaceFinished(false);
+    setPercentageOfRaceFinished(0);
+  }, []);
 
   useEffect(() => {
     if (document != null) {
@@ -90,11 +100,32 @@ export default function Play() {
   };
 
   const endRace = () => {
+    if (code == "") return;
     setIsRaceFinished(true);
     pause();
     setCurrWord("");
     setGrossWPM(calculateSpeed(seconds, correctText));
     setPercentageOfRaceFinished(100);
+  };
+
+  const resetRace = () => {
+    setCorrectText("");
+    setCurrWord("");
+    setError(false);
+    setCurrCharIndex(0);
+    setCurrWordIndex(0);
+    setGrossWPM(0);
+    setCorrectlyTypedCharacters(0);
+    setPercentageOfRaceFinished(0);
+    setIsRaceFinished(false);
+    reset();
+    pause();
+  };
+
+  const nextRace = () => {
+    const code = getSnippet();
+    setCode(code);
+    resetRace();
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,6 +223,11 @@ export default function Play() {
           error={error}
           isRaceFinished={isRaceFinished}
         />
+      </div>
+
+      <div className={styles.buttonContainer}>
+        <ResetRaceButton resetRace={resetRace} />
+        <NextRaceButton nextRace={nextRace} />
       </div>
     </motion.main>
   );

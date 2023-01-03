@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
-import GithubIcon from "@/public/github.svg";
+import GithubIcon from "@/public/icons/github.svg";
 import { signIn } from "next-auth/react";
 import { inter } from "@/lib/fonts";
 

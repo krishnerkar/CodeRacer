@@ -1,7 +1,7 @@
 import { inter } from "@/lib/fonts";
 import Image from "next/image";
 import styles from "./styles.module.css";
-import ArrowRightIcon from "@/public/arrowRight.svg";
+import ArrowRightIcon from "@/public/icons/arrowRight.svg";
 import Link from "next/link";
 
 export default function StartChallengeButton() {
