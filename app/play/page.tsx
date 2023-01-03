@@ -21,8 +21,6 @@ const inter = Inter({
   display: "swap",
 });
 
-//test
-
 export default function Play() {
   const correctRef = useRef<HTMLSpanElement | null>(null);
 
