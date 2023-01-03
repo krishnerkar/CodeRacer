@@ -1,14 +1,13 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
-import { Session } from "next-auth";
 import { Providers } from "./providers";
 
 export default async function RootLayout({
   children,
-  session,
-}: {
+}: // session,
+{
   children: React.ReactNode;
-  session: Session;
+  // session: Session;
 }) {
   return (
     <html lang="en">
@@ -17,7 +16,7 @@ export default async function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <Providers session={session}>
+      <Providers>
         <body>
           <Navbar />
           {children}
