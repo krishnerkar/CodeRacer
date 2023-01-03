@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import styles from "../app/home.module.css";
-import GithubIcon from "../public/github.svg";
+import styles from "./styles.module.css";
+import GithubIcon from "@/public/github.svg";
 import { signIn } from "next-auth/react";
+import { inter } from "@/lib/fonts";
 
 export default function LoginButton() {
   const onClick = () => {
-    console.log("clicked");
     signIn("github");
   };
   return (
@@ -16,7 +16,7 @@ export default function LoginButton() {
         padding: "8px 15px",
       }}
       onClick={onClick}
-      className={styles.button}
+      className={`${inter.className} ${styles.button}`}
     >
       <Image
         style={{

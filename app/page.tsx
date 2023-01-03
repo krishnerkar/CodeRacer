@@ -1,18 +1,22 @@
-import Image from "next/image";
-import { Inter } from "@next/font/google";
+"use client";
+
 import styles from "./home.module.css";
-import ArrowRightIcon from "../public/arrowRight.svg";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import StartChallengeButton from "@/components/Buttons/StartChallengeButton";
+import Leaderboard from "@/components/Leaderboard/leaderboard";
+import { inter } from "@/lib/fonts";
+import { pageAnimationVariants } from "@/lib/animation";
 
-const inter = Inter({
-  weight: ["400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-export default async function Home() {
+export default function Home() {
   return (
-    <main className={styles.main}>
+    <motion.main
+      variants={pageAnimationVariants}
+      initial="hidden"
+      animate="enter"
+      exit="exit"
+      transition={{ type: "linear" }}
+      className={styles.main}
+    >
       <div>
         <h1 className={`${inter.className} ${styles.heading}`}>
           Typing Challenges for Programmers
@@ -22,41 +26,10 @@ export default async function Home() {
           Programmers. Join the Community and Compete to be the Best. Improve
           Your Coding Speed and Accuracy and Become the Ultimate CodeRacer
         </h2>
-        <Link href="/play">
-          <button
-            style={{
-              padding: "15px 30px",
-              fontSize: "20px",
-              marginTop: "30px",
-            }}
-            className={`${inter.className} ${styles.button}`}
-          >
-            Start a challenge
-            <Image
-              style={{
-                marginLeft: "15px",
-              }}
-              src={ArrowRightIcon}
-              alt="Arrow-Right"
-              width={25}
-              height={25}
-            />
-          </button>
-        </Link>
+        <StartChallengeButton />
       </div>
 
-      <div className={styles.leaderboardContainer}>
-        <h2
-          style={{
-            fontWeight: "400",
-            fontSize: "25px",
-            padding: "50px",
-          }}
-          className={inter.className}
-        >
-          Leaderboard
-        </h2>
-      </div>
-    </main>
+      <Leaderboard />
+    </motion.main>
   );
 }

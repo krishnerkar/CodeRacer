@@ -1,0 +1,17 @@
+.container {
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+
+.typedChars {
+  word-break: break-all;
+  display: inline;
+  background-color: #18181b;
+}
+
+.untypedChars {
+  word-break: break-all;
+  display: inline;
+}

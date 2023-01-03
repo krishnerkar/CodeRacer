@@ -19,7 +19,7 @@ export function getSounds() {
   const error = new Howl({ src: "/sounds/error.wav", volume: 0.3 });
   return {
     packs: {
-      nkCreams: packPlayer("nkCreams", "aac", 0.8),
+      nkCreams: packPlayer("nkCreams", "aac", 1.5),
       otemuBrowns: packPlayer("otemuBrowns", "aac", 0.8),
       holyPandas: packPlayer("holyPandas", "wav", 0.8),
     },

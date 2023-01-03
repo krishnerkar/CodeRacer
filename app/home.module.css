@@ -1,25 +1,3 @@
-.button {
-  background-color: #fff;
-  border: none;
-  color: #000;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 400;
-}
-
-.button:hover:not(:disabled) {
-  box-shadow: 0 0 0 2px #fff;
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .heading {
   font-weight: 600;
   font-size: 44px;
@@ -32,14 +10,6 @@
   margin-top: 30px;
   width: 80%;
   line-height: 155.52%;
-}
-
-.leaderboardContainer {
-  background-color: #18181b;
-  margin-top: 100px;
-  width: 100%;
-  height: 100vw;
-  border-radius: 10px;
 }
 
 .main {

@@ -2,54 +2,46 @@
 
 import styles from "./play.module.css";
 import homeStyles from "../home.module.css";
-import { Source_Code_Pro } from "@next/font/google";
 import highlightjs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import { useEffect, useRef, useState } from "react";
-import { Inter } from "@next/font/google";
 import { useStopwatch } from "react-timer-hook";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
+import { getSounds, Sounds } from "../../lib/sounds";
+import { motion } from "framer-motion";
+import getSnippet from "@/lib/snippets";
+import { pageAnimationVariants } from "@/lib/animation";
+import { inter, source_code } from "@/lib/fonts";
+import { skipConsecutiveSpaces, calculateSpeed } from "@/lib/utils";
+import ProgressBar from "@/components/ProgressBar/ProgressBar";
+import RaceInfoBar from "@/components/RaceInfoBar/RaceInfoBar";
+import CodeDisplay from "@/components/CodeDisplay/CodeDisplay";
+import CodeInput from "@/components/CodeInput/CodeInput";
 
-const source_code = Source_Code_Pro({
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const inter = Inter({
-  weight: ["400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
+const code = getSnippet();
 
 export default function Play() {
+  const [currCharIndex, setCurrCharIndex] = useState(0);
+  const [correctText, setCorrectText] = useState("");
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+  const [currWord, setCurrWord] = useState("");
+  const [currWordIndex, setCurrWordIndex] = useState(0);
+  const [isRaceFinished, setIsRaceFinished] = useState(false);
+  const [percentageOfRaceFinished, setPercentageOfRaceFinished] = useState(0);
+  const [grossWPM, setGrossWPM] = useState(0);
+  const [correctlyTypedCharacters, setCorrectlyTypedCharacters] = useState(0);
+
   const correctRef = useRef<HTMLSpanElement | null>(null);
+  const soundsRef = useRef<Sounds>();
 
-  const code = `def lang_callback(lang: Optional[str]):
-    if lang is None:
-        return
-    if not lang.isalpha() or len(lang) != 2:
-        typer.echo("Use a 2 letter language code, like: es")
-        raise typer.Abort()
-    lang = lang.lower()
-    return lang`;
+  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
+    autoStart: false,
+  });
 
-  // const [code, setCode] = useState("");
-  //
-
-  // //get a random snippet from the table snippets
-  // prisma.snippets.findMany().then((res) => {
-  //   const code = res[0].code;
-  // });
-
-  // useEffect(() => {
-  //   fetch("/api/snippets")
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res)
-  //       console.log(res[0]["code"]);
-  //       setCode(res[0]["code"]);
-  //     });
-  // }, []);
+  if (!soundsRef.current && typeof window !== "undefined") {
+    soundsRef.current = getSounds();
+  }
 
   useEffect(() => {
     if (document != null) {
@@ -67,6 +59,18 @@ export default function Play() {
     }
   }, []);
 
+  useEffect(() => {
+    if (correctRef.current) {
+      highlightjs.highlightElement(correctRef.current);
+    }
+  }, [correctRef, correctText]);
+
+  useEffect(() => {
+    if (currCharIndex === characters.length) {
+      endRace();
+    }
+  }, [currCharIndex]);
+
   const characters = code.split("");
   const charactersWithoutIndentation = code
     .split(/\n+/)
@@ -79,59 +83,19 @@ export default function Play() {
     .join("")
     .split("");
 
-  const [currCharIndex, setCurrCharIndex] = useState(0);
-  const [correctText, setCorrectText] = useState("");
-  const [value, setValue] = useState("");
-  const [error, setError] = useState(false);
-  const [currWord, setCurrWord] = useState("");
-  const [currWordIndex, setCurrWordIndex] = useState(0);
-  const [correctlyTypedCharacters, setCorrectlyTypedCharacters] = useState(0);
-
-  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
-    autoStart: false,
-  });
-
-  const [isRaceFinished, setIsRaceFinished] = useState(false);
-  const [percentageOfRaceFinished, setPercentageOfRaceFinished] = useState(0);
-  const [grossWPM, setGrossWPM] = useState(0);
-
-  useEffect(() => {
-    if (correctRef.current) {
-      highlightjs.highlightElement(correctRef.current);
-    }
-  }, [correctRef, correctText]);
-
   const handleInputFocus = () => {
     if (!isRunning && !isRaceFinished) {
       start();
     }
   };
 
-  const calculateSpeed = () => {
-    const minutesTaken = seconds / 60;
-    const charactersTyped = correctText.length;
-
-    const grossWPM = Math.round(charactersTyped / 5 / minutesTaken);
-
-    setGrossWPM(grossWPM);
+  const endRace = () => {
+    setIsRaceFinished(true);
+    pause();
+    setCurrWord("");
+    setGrossWPM(calculateSpeed(seconds, correctText));
+    setPercentageOfRaceFinished(100);
   };
-
-  function skipConsecutiveSpaces(chars: string[], currCharCursor: number) {
-    let numConsecutiveSpaces = 0;
-    while (chars[currCharCursor + numConsecutiveSpaces] === " ") {
-      numConsecutiveSpaces++;
-    }
-    if (numConsecutiveSpaces > 1) {
-      currCharCursor += numConsecutiveSpaces - 1;
-    }
-    return currCharCursor;
-  }
-
-  useEffect(() => {
-    if (currCharIndex === characters.length) {
-      endRace();
-    }
-  }, [currCharIndex]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrWord(event.target.value);
@@ -141,15 +105,16 @@ export default function Play() {
     setValue(value);
     setCurrCharIndex(n);
 
+    soundsRef.current?.packs["nkCreams"]();
+
     if (value === currChar) {
       setError(false);
       setCurrCharIndex(currCharIndex + 1);
       setCorrectText(correctText + currChar);
       setValue("");
       setCurrWordIndex(currWordIndex + 1);
-      if (currCharIndex % 5 === 0) {
-        calculateSpeed();
-      }
+      setGrossWPM(calculateSpeed(seconds, correctText));
+
       try {
         const totalCharacters = characters.length;
         const charactersTyped = correctText.length;
@@ -159,6 +124,7 @@ export default function Play() {
         console.log(e);
       }
     } else {
+      soundsRef.current?.error();
       const textField = event.target;
       textField.classList.add(styles.shake);
       setTimeout(() => {
@@ -168,20 +134,16 @@ export default function Play() {
     }
   };
 
-  const endRace = () => {
-    setIsRaceFinished(true);
-    pause();
-    setCurrWord("");
-    calculateSpeed();
-    setPercentageOfRaceFinished(100);
-  };
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 13) {
       const currChar = characters[currCharIndex];
       if (currChar == "\n") {
         const n = skipConsecutiveSpaces(characters, currCharIndex + 1);
-        setCurrCharIndex(n + 1);
+        if (characters[n] == " ") {
+          setCurrCharIndex(n + 1);
+        } else {
+          setCurrCharIndex(n);
+        }
         setCorrectText(correctText + currChar);
         setValue("");
         setCurrWordIndex(0);
@@ -192,7 +154,6 @@ export default function Play() {
       setCurrWordIndex(0);
       setCurrWord("");
     }
-    //handle backspace
     if (event.keyCode === 8) {
       if (currWordIndex > 0) {
         setCurrWordIndex(currWordIndex - 1);
@@ -202,163 +163,36 @@ export default function Play() {
   };
 
   return (
-    <main className={styles.main}>
-      <div
-        style={{
-          marginTop: "60px",
-          padding: "40px",
-        }}
-        className={styles.container}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "50px",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "20px",
-              fontWeight: "700",
-            }}
-            className={inter.className}
-          >
-            Krish
-          </p>
-          <div className={styles.progress}>
-            <div
-              style={{
-                width: `${percentageOfRaceFinished}%`,
-              }}
-              className={styles.progressValue}
-            ></div>
-          </div>
-        </div>
-      </div>
+    <motion.main
+      variants={pageAnimationVariants}
+      initial="hidden"
+      animate="enter"
+      exit="exit"
+      transition={{ type: "linear" }}
+      className={styles.main}
+    >
+      <ProgressBar width={percentageOfRaceFinished} />
+      <RaceInfoBar minutes={minutes} seconds={seconds} grossWPM={grossWPM} />
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "30px",
-          marginTop: "80px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "20px",
-              fontWeight: "700",
-            }}
-            className={inter.className}
-          >
-            Elapsed Time:{" "}
-            {minutes != 0 && `${minutes} min${minutes == 1 ? "" : "s"} `}
-            {seconds.toString().padStart(2, "0")} seconds
-          </p>
-
-          <p
-            style={{
-              marginLeft: "60px",
-              fontSize: "20px",
-              fontWeight: "700",
-            }}
-            className={inter.className}
-          >
-            Speed: {grossWPM} WPM
-          </p>
-        </div>
-        <Tooltip text="Coming soon!" delay={false}>
-          <button
-            style={{
-              padding: "15px 30px",
-              fontSize: "20px",
-            }}
-            disabled
-            className={`${inter.className} ${homeStyles.button}`}
-          >
-            Invite Friends
-          </button>
-        </Tooltip>
-      </div>
       <div className={styles.container}>
-        <pre
-          style={{
-            fontSize: "18px",
-            lineHeight: "1.5",
-            fontWeight: "600",
-          }}
-          className={`${source_code.className}`}
-        >
-          <span
-            style={{
-              wordBreak: "break-all",
-              display: "inline",
-              backgroundColor: "#18181b",
-            }}
-            className="python"
-            ref={correctRef}
-          >
-            {code.slice(0, currCharIndex)}
-          </span>
-          {characters.map((char, index) => {
-            if (index < currCharIndex) {
-              return null;
-            }
-            return (
-              <span
-                key={index}
-                style={{
-                  wordBreak: "break-all",
-                  display: "inline",
-                  color:
-                    index === currCharIndex
-                      ? value == char
-                        ? "#fff"
-                        : "#000"
-                      : "#fff",
-                  background:
-                    index === currCharIndex
-                      ? value == char
-                        ? "transparent"
-                        : isRaceFinished
-                        ? "trasnparent"
-                        : "rgba(255, 255, 255)"
-                      : "transparent",
-                }}
-              >
-                {index === currCharIndex && char == "\n" ? <>&#8629;</> : ""}
-                {char}
-              </span>
-            );
-          })}{" "}
-        </pre>
-        <input
-          id="input"
-          className={`${styles.input} ${source_code.className}`}
-          value={currWord}
+        <CodeDisplay
+          code={code}
+          currCharIndex={currCharIndex}
+          characters={characters}
+          value={value}
+          isRaceFinished={isRaceFinished}
+          correctRef={correctRef}
+          language="python"
+        />
+        <CodeInput
+          currWord={currWord}
           onChange={onChange}
-          onKeyDown={handleKeyDown}
-          onFocus={handleInputFocus}
-          placeholder="Type the above code here..."
-          disabled={isRaceFinished}
-          style={{
-            border: error ? "2px solid #ff3333" : "1px solid #fff",
-            background: error
-              ? "#FFC5C5"
-              : isRaceFinished
-              ? "rgba(255, 255, 255, 0.57)"
-              : "#fff",
-            cursor: isRaceFinished ? "not-allowed" : "text",
-          }}
-        ></input>
+          handleInputFocus={handleInputFocus}
+          handleKeyDown={handleKeyDown}
+          error={error}
+          isRaceFinished={isRaceFinished}
+        />
       </div>
-    </main>
+    </motion.main>
   );
 }
