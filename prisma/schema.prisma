@@ -17,3 +17,11 @@ model user {
   email     String  
 }
 
+model snippets{
+  id        Int     @id @default(autoincrement())
+  code      String
+  language  String
+  url       String
+  repo_name String
+  repo_url  String
+}

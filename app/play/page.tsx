@@ -10,7 +10,7 @@ import { Inter } from "@next/font/google";
 import { useStopwatch } from "react-timer-hook";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
 
-const code = Source_Code_Pro({
+const source_code = Source_Code_Pro({
   weight: ["400", "500", "600"],
   display: "swap",
 });
@@ -24,14 +24,51 @@ const inter = Inter({
 export default function Play() {
   const correctRef = useRef<HTMLSpanElement | null>(null);
 
-  const text = `def test_router_b():
-    with client:
-        response = client.get("/b")
-    assert response.content == b"Hello B"
-    assert response.headers["content-type"] == text_type`;
+  const code = `def lang_callback(lang: Optional[str]):
+    if lang is None:
+        return
+    if not lang.isalpha() or len(lang) != 2:
+        typer.echo("Use a 2 letter language code, like: es")
+        raise typer.Abort()
+    lang = lang.lower()
+    return lang`;
 
-  const characters = text.split("");
-  const charactersWithoutIndentation = text
+  // const [code, setCode] = useState("");
+  //
+
+  // //get a random snippet from the table snippets
+  // prisma.snippets.findMany().then((res) => {
+  //   const code = res[0].code;
+  // });
+
+  // useEffect(() => {
+  //   fetch("/api/snippets")
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res)
+  //       console.log(res[0]["code"]);
+  //       setCode(res[0]["code"]);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    if (document != null) {
+      const input = document.getElementById("input") as HTMLInputElement;
+      input.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+      input.addEventListener(
+        "select",
+        function () {
+          this.selectionStart = this.selectionEnd;
+        },
+        false
+      );
+    }
+  }, []);
+
+  const characters = code.split("");
+  const charactersWithoutIndentation = code
     .split(/\n+/)
     .map((line) => {
       let strippedLine = line.replace(/^\s+/, "");
@@ -257,7 +294,7 @@ export default function Play() {
             lineHeight: "1.5",
             fontWeight: "600",
           }}
-          className={`${code.className}`}
+          className={`${source_code.className}`}
         >
           <span
             style={{
@@ -268,13 +305,12 @@ export default function Play() {
             className="python"
             ref={correctRef}
           >
-            {text.slice(0, currCharIndex)}
+            {code.slice(0, currCharIndex)}
           </span>
           {characters.map((char, index) => {
             if (index < currCharIndex) {
               return null;
             }
-
             return (
               <span
                 key={index}
@@ -304,7 +340,8 @@ export default function Play() {
           })}{" "}
         </pre>
         <input
-          className={`${styles.input} ${code.className}`}
+          id="input"
+          className={`${styles.input} ${source_code.className}`}
           value={currWord}
           onChange={onChange}
           onKeyDown={handleKeyDown}
