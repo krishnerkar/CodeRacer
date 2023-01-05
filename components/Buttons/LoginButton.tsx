@@ -4,11 +4,12 @@ import styles from "./styles.module.css";
 import GithubIcon from "@/public/icons/github.svg";
 import { signIn } from "next-auth/react";
 import { inter } from "@/lib/fonts";
+import mixpanel from "mixpanel-browser";
 
 export default function LoginButton() {
   const onClick = () => {
     signIn("github").then((res) => {
-      console.log(res);
+      mixpanel.track("Login");
     });
   };
   return (
