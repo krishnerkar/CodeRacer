@@ -26,7 +26,7 @@ export default function CodeInput({
       placeholder={!isRaceFinished ? "Type the above code here..." : ""}
       disabled={isRaceFinished}
       style={{
-        border: error ? "2px solid #ff3333" : "1px solid #fff",
+        border: error ? "2px solid #ff3333" : "2px solid #fff",
         background: error
           ? "#FFC5C5"
           : isRaceFinished
