@@ -7,10 +7,10 @@ export default function Head() {
       <meta name="keywords" content="typing game, coders, typing test" />
       <meta name="robots" content="index, follow" />
       <meta name="language" content="English" />
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
 
-      <meta property="og:image" content="/meta.png" />
+      <meta name="image" property="og:image" content="/meta.png" />
       <meta property="og:description" content="A Typing game for coders" />
 
       <meta name="twitter:card" content="summary_large_image" />
