@@ -123,9 +123,9 @@ export default function Play() {
         githubId: session?.userObj?.githubid,
         race: JSON.stringify(race),
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    });
+    // .then((res) => res.json())
+    // .then((data) => console.log(data));
   };
 
   const resetRace = () => {
@@ -176,7 +176,7 @@ export default function Play() {
         const percentage = (charactersTyped / totalCharacters) * 100;
         setPercentageOfRaceFinished(percentage);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     } else {
       soundsRef.current?.error();
