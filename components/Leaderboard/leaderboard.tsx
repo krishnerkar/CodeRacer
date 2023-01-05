@@ -18,9 +18,10 @@ export default function Leaderboard() {
     <div className={styles.container}>
       <h2
         style={{
-          fontWeight: "400",
+          fontWeight: "800",
           fontSize: "25px",
           padding: "0px 50px",
+          marginBottom: "50px",
         }}
         className={inter.className}
       >
