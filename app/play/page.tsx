@@ -102,7 +102,7 @@ export default function Play() {
   const endRace = () => {
     if (code == "") return;
 
-    mixpanel.track("Race Completed", {
+    mixpanel?.track("Race Completed", {
       wpm: grossWPM,
       time: minutes * 60 + seconds,
       code: code,

@@ -13,7 +13,7 @@ export default function StartChallengeButton() {
         <Link href="/play">
           <button
             onClick={() => { 
-              mixpanel.track("Start Challenge Clicked");
+              mixpanel?.track("Start Challenge Clicked");
             }}
             style={{
               padding: "15px 30px",

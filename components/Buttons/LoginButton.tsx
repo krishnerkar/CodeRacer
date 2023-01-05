@@ -9,7 +9,7 @@ import mixpanel from "mixpanel-browser";
 export default function LoginButton() {
   const onClick = () => {
     signIn("github").then((res) => {
-      mixpanel.track("Login");
+      mixpanel?.track("Login");
     });
   };
   return (
