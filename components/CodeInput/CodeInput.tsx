@@ -5,7 +5,6 @@ export default function CodeInput({
   currWord,
   onChange,
   handleKeyDown,
-  handleInputFocus,
   isRaceFinished,
   error,
 }: {
