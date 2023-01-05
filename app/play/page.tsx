@@ -101,7 +101,6 @@ export default function Play() {
   const endRace = () => {
     if (code == "") return;
 
-
     setIsRaceFinished(true);
     pause();
     setCurrWord("");
@@ -231,6 +230,7 @@ export default function Play() {
         {session != null && status === "authenticated" ? (
           <>
             <ProgressBar width={percentageOfRaceFinished} />
+
             <RaceInfoBar
               minutes={minutes}
               seconds={seconds}
@@ -238,15 +238,23 @@ export default function Play() {
             />
 
             <div className={styles.container}>
-              <CodeDisplay
-                code={code}
-                currCharIndex={currCharIndex}
-                characters={characters}
-                value={value}
-                isRaceFinished={isRaceFinished}
-                correctRef={correctRef}
-                language="python"
-              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "start",
+                }}
+              >
+                <CodeDisplay
+                  code={code}
+                  currCharIndex={currCharIndex}
+                  characters={characters}
+                  value={value}
+                  isRaceFinished={isRaceFinished}
+                  correctRef={correctRef}
+                  language="python"
+                />
+              </div>
               <CodeInput
                 currWord={currWord}
                 onChange={onChange}

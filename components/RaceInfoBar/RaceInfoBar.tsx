@@ -32,6 +32,7 @@ export default function RaceInfoBar({
           Speed: {grossWPM} WPM
         </p>
       </div>
+
       <InviteFriendsButton />
     </div>
   );
