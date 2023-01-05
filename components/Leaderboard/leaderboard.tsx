@@ -32,47 +32,17 @@ export default function Leaderboard() {
           if (index > 9) return;
           return (
             <li key={index} className={styles.tableRow}>
-              <div className={`${styles.col} ${styles.col1}`} data-label="Rank">
-                {index + 1}
-              </div>
-              <div
-                className={`${styles.col} ${styles.col2}`}
-                data-label="Customer Name"
-              >
+              <div className={`${styles.col} ${styles.col1}`}>{index + 1}</div>
+              <div className={`${styles.col} ${styles.col2}`}>
                 {user.username}
               </div>
-              <div
-                className={`${styles.col} ${styles.col3}`}
-                data-label="Amount"
-              >
+              <div className={`${styles.col} ${styles.col3}`}>
                 {user.topspeed} WPM
               </div>
-              <div
-                className={`${styles.col} ${styles.col4}`}
-                data-label="Payment Status"
-              ></div>
+              <div className={`${styles.col} ${styles.col4}`}></div>
             </li>
           );
         })}
-        {/* 
-        <li className="table-row">
-          <div className={`${styles.col} ${styles.col1}`} data-label="Job Id">
-            1
-          </div>
-          <div
-            className={`${styles.col} ${styles.col2}`}
-            data-label="Customer Name"
-          >
-            Krish-Nerkar
-          </div>
-          <div className={`${styles.col} ${styles.col3}`} data-label="Amount">
-            750 WPM
-          </div>
-          <div
-            className={`${styles.col} ${styles.col4}`}
-            data-label="Payment Status"
-          ></div>
-        </li> */}
       </ul>
     </div>
   );
