@@ -1,17 +1,9 @@
-import NextAuth, { Profile } from "next-auth";
+import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  // const token = getAccessToken(req.cookies) || ""
-  // const payload = jwt.verify(token, JWT_SECRET)
-  // const { userId } = payload as { userId: number }
-
-  // if (!userId) {
-  //   throw new Error("Please connect your wallet")
-  // }
-
   return await NextAuth(req, res, {
     providers: [
       GitHubProvider({
