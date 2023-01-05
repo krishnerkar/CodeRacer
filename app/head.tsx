@@ -12,11 +12,11 @@ export default function Head() {
       <meta property="og:image" content="/meta.png" />
       <meta property="og:description" content="A Typing game for coders" />
 
-      <meta name="twitter:image" content="/meta.png" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://www.coderacer.tech/" />
-      <meta property="twitter:title" content="CodeRacer" />
-      <meta property="twitter:description" content="A Typing game for coders" />
+      <meta name="twitter:creator" content="@krishnerkar" />
+      <meta name="twitter:title" content="CodeRacer" />
+      <meta name="twitter:description" content="A Typing game for coders" />
+      <meta name="twitter:image" content="/meta.png"></meta>
     </>
   );
 }
