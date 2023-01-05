@@ -18,7 +18,6 @@ import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
 import NextRaceButton from "@/components/Buttons/NextRaceButton";
 import { useSession } from "next-auth/react";
 import { inter } from "@/lib/fonts";
-import mixpanel from "mixpanel-browser";
 
 export default function Play() {
   const [currCharIndex, setCurrCharIndex] = useState(0);
@@ -102,11 +101,6 @@ export default function Play() {
   const endRace = () => {
     if (code == "") return;
 
-    mixpanel?.track("Race Completed", {
-      wpm: grossWPM,
-      time: minutes * 60 + seconds,
-      code: code,
-    });
 
     setIsRaceFinished(true);
     pause();

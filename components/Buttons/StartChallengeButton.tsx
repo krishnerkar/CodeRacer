@@ -4,7 +4,6 @@ import styles from "./styles.module.css";
 import ArrowRightIcon from "@/public/icons/arrowRight.svg";
 import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
-import mixpanel from "mixpanel-browser";
 
 export default function StartChallengeButton() {
   return (
@@ -12,9 +11,7 @@ export default function StartChallengeButton() {
       <div className={styles.desktop}>
         <Link href="/play">
           <button
-            onClick={() => { 
-              mixpanel?.track("Start Challenge Clicked");
-            }}
+            
             style={{
               padding: "15px 30px",
               fontSize: "20px",
