@@ -22,6 +22,11 @@ export default async function handler(
     orderBy: {
       topspeed: "desc",
     },
+    where: {
+      topspeed: {
+        not: 0,
+      },
+    },
   });
 
   res.status(200).json(leaderboard);
