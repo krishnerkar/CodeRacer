@@ -16,6 +16,8 @@ import CodeDisplay from "@/components/CodeDisplay/CodeDisplay";
 import CodeInput from "@/components/CodeInput/CodeInput";
 import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
 import NextRaceButton from "@/components/Buttons/NextRaceButton";
+import { useSession } from "next-auth/react";
+import { inter } from "@/lib/fonts";
 
 export default function Play() {
   const [currCharIndex, setCurrCharIndex] = useState(0);
@@ -33,6 +35,8 @@ export default function Play() {
   const correctRef = useRef<HTMLSpanElement | null>(null);
   const soundsRef = useRef<Sounds>();
 
+  const { data: session, status } = useSession();
+
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
     autoStart: false,
   });
@@ -49,12 +53,18 @@ export default function Play() {
   }, []);
 
   useEffect(() => {
+    if (minutes === 5) {
+      endRace();
+    }
+  }, [minutes]);
+
+  useEffect(() => {
     if (document != null) {
       const input = document.getElementById("input") as HTMLInputElement;
-      input.addEventListener("selectstart", function (e) {
+      input?.addEventListener("selectstart", function (e) {
         e.preventDefault();
       });
-      input.addEventListener(
+      input?.addEventListener(
         "select",
         function () {
           this.selectionStart = this.selectionEnd;
@@ -88,19 +98,33 @@ export default function Play() {
     .join("")
     .split("");
 
-  const handleInputFocus = () => {
-    if (!isRunning && !isRaceFinished) {
-      start();
-    }
-  };
-
   const endRace = () => {
     if (code == "") return;
     setIsRaceFinished(true);
     pause();
     setCurrWord("");
-    setGrossWPM(calculateSpeed(seconds, correctText));
+    setGrossWPM(calculateSpeed(minutes, seconds, correctText));
     setPercentageOfRaceFinished(100);
+
+    const race = {
+      wpm: grossWPM,
+      time: minutes * 60 + seconds,
+      code: code,
+    };
+
+    fetch("/api/addRace", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        //@ts-expect-error
+        githubId: session?.userObj?.githubid,
+        race: JSON.stringify(race),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   const resetRace = () => {
@@ -113,8 +137,8 @@ export default function Play() {
     setCorrectlyTypedCharacters(0);
     setPercentageOfRaceFinished(0);
     setIsRaceFinished(false);
-    reset();
     pause();
+    reset(undefined, false);
   };
 
   const nextRace = () => {
@@ -133,13 +157,17 @@ export default function Play() {
 
     soundsRef.current?.packs["nkCreams"]();
 
+    if (!isRunning && !isRaceFinished) {
+      start();
+    }
+
     if (value === currChar) {
       setError(false);
       setCurrCharIndex(currCharIndex + 1);
       setCorrectText(correctText + currChar);
       setValue("");
       setCurrWordIndex(currWordIndex + 1);
-      setGrossWPM(calculateSpeed(seconds, correctText));
+      setGrossWPM(calculateSpeed(minutes, seconds, correctText));
 
       try {
         const totalCharacters = characters.length;
@@ -197,33 +225,44 @@ export default function Play() {
       transition={{ type: "linear" }}
       className={styles.main}
     >
-      <ProgressBar width={percentageOfRaceFinished} />
-      <RaceInfoBar minutes={minutes} seconds={seconds} grossWPM={grossWPM} />
+      {session != null && status === "authenticated" ? (
+        <>
+          <ProgressBar width={percentageOfRaceFinished} />
+          <RaceInfoBar
+            minutes={minutes}
+            seconds={seconds}
+            grossWPM={grossWPM}
+          />
 
-      <div className={styles.container}>
-        <CodeDisplay
-          code={code}
-          currCharIndex={currCharIndex}
-          characters={characters}
-          value={value}
-          isRaceFinished={isRaceFinished}
-          correctRef={correctRef}
-          language="python"
-        />
-        <CodeInput
-          currWord={currWord}
-          onChange={onChange}
-          handleInputFocus={handleInputFocus}
-          handleKeyDown={handleKeyDown}
-          error={error}
-          isRaceFinished={isRaceFinished}
-        />
-      </div>
+          <div className={styles.container}>
+            <CodeDisplay
+              code={code}
+              currCharIndex={currCharIndex}
+              characters={characters}
+              value={value}
+              isRaceFinished={isRaceFinished}
+              correctRef={correctRef}
+              language="python"
+            />
+            <CodeInput
+              currWord={currWord}
+              onChange={onChange}
+              handleKeyDown={handleKeyDown}
+              error={error}
+              isRaceFinished={isRaceFinished}
+            />
+          </div>
 
-      <div className={styles.buttonContainer}>
-        <ResetRaceButton resetRace={resetRace} />
-        <NextRaceButton nextRace={nextRace} />
-      </div>
+          <div className={styles.buttonContainer}>
+            <ResetRaceButton resetRace={resetRace} />
+            <NextRaceButton nextRace={nextRace} />
+          </div>
+        </>
+      ) : status === "loading" ? (
+        <h1 className={inter.className}>Loading...</h1>
+      ) : (
+        <h1 className={inter.className}>Please Login to Play</h1>
+      )}
     </motion.main>
   );
 }

@@ -2,6 +2,60 @@
   background-color: #18181b;
   margin-top: 100px;
   width: 100%;
-  height: 100vw;
+  /* height: 100%; */
   border-radius: 10px;
+  padding: 50px 0px;
+}
+
+.responsiveTable li {
+  margin-top: 50px;
+  border-radius: 3px;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+.responsiveTable .tableHeader {
+  background-color: #95a5a6;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.responsiveTable .tableRow {
+  background-color: #ffffff00;
+}
+.responsiveTable .col1 {
+  flex-basis: 10%;
+}
+.responsiveTable .col2 {
+  flex-basis: 40%;
+}
+.responsiveTable .col3 {
+  flex-basis: 25%;
+}
+.responsiveTable .col4 {
+  flex-basis: 25%;
+}
+@media all and (max-width: 767px) {
+  .responsiveTable .table-header {
+    display: none;
+  }
+  .responsiveTable li {
+    display: block;
+  }
+  .responsiveTable .col {
+    flex-basis: 100%;
+  }
+  .responsiveTable .col {
+    display: flex;
+    padding: 10px 0;
+  }
+  .responsiveTable .col:before {
+    color: #6c7a89;
+    padding-right: 10px;
+    content: attr(data-label);
+    flex-basis: 50%;
+    text-align: right;
+  }
 }

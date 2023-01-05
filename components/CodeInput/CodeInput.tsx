@@ -12,18 +12,17 @@ export default function CodeInput({
   currWord: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleInputFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   isRaceFinished: boolean;
   error: boolean;
 }) {
   return (
     <input
       id="input"
+      autoComplete="off"
       className={`${styles.input} ${source_code.className}`}
       value={currWord}
       onChange={onChange}
       onKeyDown={handleKeyDown}
-      onFocus={handleInputFocus}
       placeholder={isRaceFinished ? "Type the above code here..." : ""}
       disabled={isRaceFinished}
       style={{

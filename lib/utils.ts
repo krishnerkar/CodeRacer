@@ -1,5 +1,6 @@
-export function calculateSpeed(seconds: number, textTyped: string) {
-  const minutesTaken = seconds / 60;
+export function calculateSpeed(minutes: number, seconds: number, textTyped: string) {
+  const totalSeconds = minutes * 60 + seconds;
+  const minutesTaken = totalSeconds / 60;
   const charactersTyped = textTyped.length;
   const grossWPM = Math.round(charactersTyped / 5 / minutesTaken);
 

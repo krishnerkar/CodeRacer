@@ -12,9 +12,14 @@ datasource db {
 
 model user {
   id        Int     @id @default(autoincrement())
+  //unique and not null
+  // hellp    String  @unique 
   githubid  String  @unique
   username  String  @unique
-  email     String  
+  email     String  @unique
+  avatar    String
+  topspeed  Int
+  races     Json[]    @default([])
 }
 
 // model snippets{
