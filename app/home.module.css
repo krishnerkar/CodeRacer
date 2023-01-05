@@ -16,3 +16,30 @@
   margin: 30px;
 }
 
+.mobile {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+
+  .main {
+    margin: 0px 10px;
+    display: flex;
+    height: 100vh;
+  }
+
+  .mobile {
+    display: flex;
+  }
+
+  .subheading {
+    font-size: 18px;
+  }
+}

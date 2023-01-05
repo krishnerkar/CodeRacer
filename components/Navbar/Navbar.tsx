@@ -13,11 +13,13 @@ export default function Navbar() {
     <div className={styles.container}>
       <Logo />
 
-      {session?.user?.email ? (
-        <User email={session.user?.email || ""} />
-      ) : (
-        <LoginButton />
-      )}
+      <div className={styles.user}>
+        {session?.user?.email ? (
+          <User email={session.user?.email || ""} />
+        ) : (
+          <LoginButton />
+        )}
+      </div>
     </div>
   );
 }

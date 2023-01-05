@@ -37,25 +37,9 @@
 .responsiveTable .col4 {
   flex-basis: 25%;
 }
-@media all and (max-width: 767px) {
-  .responsiveTable .table-header {
+
+@media only screen and (max-width: 768px) {
+  .container {
     display: none;
-  }
-  .responsiveTable li {
-    display: block;
-  }
-  .responsiveTable .col {
-    flex-basis: 100%;
-  }
-  .responsiveTable .col {
-    display: flex;
-    padding: 10px 0;
-  }
-  .responsiveTable .col:before {
-    color: #6c7a89;
-    padding-right: 10px;
-    content: attr(data-label);
-    flex-basis: 50%;
-    text-align: right;
   }
 }

@@ -2,18 +2,10 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import GithubIcon from "@/public/icons/github.svg";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { inter } from "@/lib/fonts";
 
 export default function LoginButton() {
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      console.log("unauthenticated");
-    },
-  }); 
-
-
   const onClick = () => {
     signIn("github").then((res) => {
       console.log(res);

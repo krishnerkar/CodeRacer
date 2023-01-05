@@ -15,3 +15,11 @@
   font-size: 15px;
   font-weight: 500;
 }
+
+/*hide on mobile screens*/
+
+@media only screen and (max-width: 768px) {
+  .container {
+    display: none;
+  }
+}

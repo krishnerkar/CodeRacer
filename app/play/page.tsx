@@ -225,44 +225,49 @@ export default function Play() {
       transition={{ type: "linear" }}
       className={styles.main}
     >
-      {session != null && status === "authenticated" ? (
-        <>
-          <ProgressBar width={percentageOfRaceFinished} />
-          <RaceInfoBar
-            minutes={minutes}
-            seconds={seconds}
-            grossWPM={grossWPM}
-          />
-
-          <div className={styles.container}>
-            <CodeDisplay
-              code={code}
-              currCharIndex={currCharIndex}
-              characters={characters}
-              value={value}
-              isRaceFinished={isRaceFinished}
-              correctRef={correctRef}
-              language="python"
+      <div className={styles.desktop}>
+        {session != null && status === "authenticated" ? (
+          <>
+            <ProgressBar width={percentageOfRaceFinished} />
+            <RaceInfoBar
+              minutes={minutes}
+              seconds={seconds}
+              grossWPM={grossWPM}
             />
-            <CodeInput
-              currWord={currWord}
-              onChange={onChange}
-              handleKeyDown={handleKeyDown}
-              error={error}
-              isRaceFinished={isRaceFinished}
-            />
-          </div>
 
-          <div className={styles.buttonContainer}>
-            <ResetRaceButton resetRace={resetRace} />
-            <NextRaceButton nextRace={nextRace} />
-          </div>
-        </>
-      ) : status === "loading" ? (
-        <h1 className={inter.className}>Loading...</h1>
-      ) : (
-        <h1 className={inter.className}>Please Login to Play</h1>
-      )}
+            <div className={styles.container}>
+              <CodeDisplay
+                code={code}
+                currCharIndex={currCharIndex}
+                characters={characters}
+                value={value}
+                isRaceFinished={isRaceFinished}
+                correctRef={correctRef}
+                language="python"
+              />
+              <CodeInput
+                currWord={currWord}
+                onChange={onChange}
+                handleKeyDown={handleKeyDown}
+                error={error}
+                isRaceFinished={isRaceFinished}
+              />
+            </div>
+
+            <div className={styles.buttonContainer}>
+              <ResetRaceButton resetRace={resetRace} />
+              <NextRaceButton nextRace={nextRace} />
+            </div>
+          </>
+        ) : status === "loading" ? (
+          <h1 className={inter.className}>Loading...</h1>
+        ) : (
+          <h1 className={inter.className}>Please Login to Play</h1>
+        )}
+      </div>
+      <div className={styles.mobile}>
+        <h1 className={inter.className}>Please use a desktop to play</h1>
+      </div>
     </motion.main>
   );
 }
