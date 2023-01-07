@@ -23,6 +23,8 @@ export default async function handler(
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
   const session = await unstable_getServerSession(req, res, authOptions);
+  //@ts-expect-error
+  const githubId = session?.userObj?.githubid;
 
   if (!session) {
     res.status(401).json({ error: "Unauthorized" });
@@ -63,7 +65,7 @@ export default async function handler(
     return;
   }
 
-  const wpm = calculateSpeed(0, secondsPassed, correctText);
+  const wpm = calculateSpeed(0, secondsPassed, correctText) + 1;
 
   if (wpm > 150) {
     res.status(400).json({
@@ -79,7 +81,27 @@ export default async function handler(
     },
     data: {
       end: timestamp.toString(),
-      wpm: wpm + 1,
+      wpm: wpm,
+    },
+  });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      githubid: githubId.toString(),
+    },
+    select: {
+      topspeed: true,
+    },
+  });
+
+  const topspeed = user?.topspeed || 0;
+
+  await prisma.user.update({
+    where: {
+      githubid: githubId.toString(),
+    },
+    data: {
+      topspeed: wpm > topspeed ? wpm : topspeed,
     },
   });
 
