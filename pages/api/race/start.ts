@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { user } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 type raceSession = {
   data?: string;
@@ -21,6 +21,14 @@ export default async function handler(
   const json = req.body;
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
+  const session = await unstable_getServerSession(req, res, authOptions);
+  //@ts-expect-error
+  const githubId = session?.userObj?.githubid;
+
+  if (!session) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
 
   if (!sessionId) {
     res.status(400).json({ error: "Invalid Request" });
@@ -29,7 +37,7 @@ export default async function handler(
 
   const user = await prisma.user.findUnique({
     where: {
-      githubid: json.githubId.toString(),
+      githubid: githubId.toString(),
     },
   });
 

@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { user } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
 import { calculateSpeed } from "@/lib/utils";
+import { authOptions } from "../auth/[...nextauth]";
 
 type raceSession = {
   sessionid?: string;
@@ -10,8 +10,7 @@ type raceSession = {
 };
 
 type body = {
-  githubId: string;
-  code: string;
+  text: string;
 };
 
 export default async function handler(
@@ -19,10 +18,16 @@ export default async function handler(
   res: NextApiResponse<raceSession>
 ) {
   const timestamp = Date.now();
-  const json = req.body;
+  const json = req.body as body;
   const correctText = json.text;
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
 
   if (!sessionId) {
     res.status(400).json({ error: "Invalid Request" });
@@ -50,19 +55,33 @@ export default async function handler(
 
   const secondsPassed = (endingTime - startingTime) / 1000;
 
+  if (secondsPassed < 10) {
+    res.status(400).json({
+      error:
+        "Stop cheating, if you didn't cheat, dm me @krishnerkar on twitter",
+    });
+    return;
+  }
+
   const wpm = calculateSpeed(0, secondsPassed, correctText);
 
-  const result = await prisma.race.update({
+  if (wpm > 150) {
+    res.status(400).json({
+      error:
+        "Stop cheating, if you didn't cheat, dm me @krishnerkar on twitter",
+    });
+    return;
+  }
+
+  await prisma.race.update({
     where: {
       sessionid: sessionId.toString(),
     },
     data: {
       end: timestamp.toString(),
-      wpm: wpm,
+      wpm: wpm + 1,
     },
   });
-  
-  console.log(result)
 
   res.status(200).json({ sessionid: sessionId });
 }

@@ -18,6 +18,7 @@ import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
 import NextRaceButton from "@/components/Buttons/NextRaceButton";
 import { useSession } from "next-auth/react";
 import { inter } from "@/lib/fonts";
+import { toast, Toaster } from "react-hot-toast";
 
 type Options = {
   expires?: number | Date;
@@ -116,23 +117,23 @@ export default function Play() {
     setGrossWPM(calculateSpeed(minutes, seconds, correctText));
     setPercentageOfRaceFinished(100);
 
-    const race = {
-      wpm: grossWPM,
-      time: minutes * 60 + seconds,
-      code: code,
-    };
-
-    fetch("/api/race/end", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //@ts-expect-error
-        githubId: session?.userObj?.githubid,
-        text: correctText,
-      }),
-    });
+    try {
+      fetch("/api/race/end", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: correctText,
+        }),
+      }).then((res) => {
+        if (res.status !== 200) {
+          toast.error(res.statusText);
+        }
+      });
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
 
   const resetRace = () => {
@@ -201,19 +202,23 @@ export default function Play() {
       secure: true,
     });
 
-    fetch("/api/race/start", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //@ts-expect-error
-        githubId: session?.userObj?.githubid,
-        code: code,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    try {
+      fetch("/api/race/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+        }),
+      }).then((res) => {
+        if (res.status !== 200) {
+          toast.error(res.statusText);
+        }
+      });
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -348,6 +353,7 @@ export default function Play() {
       <div className={styles.mobile}>
         <h1 className={inter.className}>Please use a desktop to play</h1>
       </div>
+      <Toaster />
     </motion.main>
   );
 }
