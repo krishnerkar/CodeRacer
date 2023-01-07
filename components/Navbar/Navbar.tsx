@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import Logo from "./Logo";
 import User from "./User";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -20,6 +21,14 @@ export default function Navbar() {
           <LoginButton />
         )}
       </div>
+
+      <button
+        onClick={() => {
+          signOut();
+        }}
+      >
+        Signout
+      </button>
     </div>
   );
 }

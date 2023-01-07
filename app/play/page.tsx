@@ -19,6 +19,15 @@ import NextRaceButton from "@/components/Buttons/NextRaceButton";
 import { useSession } from "next-auth/react";
 import { inter } from "@/lib/fonts";
 
+type Options = {
+  expires?: number | Date;
+  path?: string;
+  domain?: string;
+  secure?: boolean;
+  sameSite?: "lax" | "strict" | "none";
+  [propName: string]: any;
+};
+
 export default function Play() {
   const [currCharIndex, setCurrCharIndex] = useState(0);
   const [correctText, setCorrectText] = useState("");
@@ -113,7 +122,7 @@ export default function Play() {
       code: code,
     };
 
-    fetch("/api/addRace", {
+    fetch("/api/race/end", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -121,11 +130,9 @@ export default function Play() {
       body: JSON.stringify({
         //@ts-expect-error
         githubId: session?.userObj?.githubid,
-        race: JSON.stringify(race),
+        text: correctText,
       }),
     });
-    // .then((res) => res.json())
-    // .then((data) => console.log(data));
   };
 
   const resetRace = () => {
@@ -148,6 +155,67 @@ export default function Play() {
     resetRace();
   };
 
+  function setCookie(name: string, value: string, options?: Options) {
+    options = options || {};
+
+    let expires = options.expires;
+
+    if (typeof expires == "number" && expires) {
+      let d = new Date();
+      d.setTime(d.getTime() + expires * 1000);
+      expires = options.expires = d;
+    }
+    if (expires && expires instanceof Date && expires.toUTCString) {
+      options.expires = new Date(expires.toUTCString());
+    }
+
+    value = encodeURIComponent(value);
+
+    let updatedCookie = name + "=" + value;
+
+    for (let propName in options) {
+      updatedCookie += "; " + propName;
+      let propValue = (options as any)[propName];
+      if (propValue !== true) {
+        updatedCookie += "=" + propValue;
+      }
+    }
+
+    document.cookie = updatedCookie;
+  }
+
+  const startRace = () => {
+    start();
+
+    const timestamp = Date.now();
+    const randomNumber = Math.random();
+
+    const sessionId = (timestamp.toString(36) + randomNumber.toString(36))
+      .split(".")
+      .join("");
+
+    setCookie("sessionId", sessionId, {
+      expires: 300,
+      path: "/",
+      domain: process.env.DOMAIN || "",
+      secure: true,
+    });
+
+    fetch("/api/race/start", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        //@ts-expect-error
+        githubId: session?.userObj?.githubid,
+        code: code,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrWord(event.target.value);
     const value = event.target.value[currWordIndex];
@@ -159,7 +227,7 @@ export default function Play() {
     soundsRef.current?.packs["nkCreams"]();
 
     if (!isRunning && !isRaceFinished) {
-      start();
+      startRace();
     }
 
     if (value === currChar) {
@@ -268,6 +336,8 @@ export default function Play() {
               <ResetRaceButton resetRace={resetRace} />
               <NextRaceButton nextRace={nextRace} />
             </div>
+
+            {/* <button onClick={endRace}>end race</button> */}
           </>
         ) : status === "loading" ? (
           <h1 className={inter.className}>Loading...</h1>

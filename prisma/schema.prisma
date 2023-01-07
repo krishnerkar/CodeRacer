@@ -11,18 +11,34 @@ datasource db {
 }
 
 model user {
-  id        Int     @id @default(autoincrement())
-  //unique and not null
-  // hellp    String  @unique 
-  githubid  String  @unique
-  username  String  @unique
-  email     String  @unique
-  avatar    String
-  topspeed  Int
-  races     Json[]    @default([])
+  id       Int    @id @default(autoincrement())
+  githubid String @unique
+  username String @unique
+  email    String @unique
+  avatar   String
+  topspeed Int
+  race     race[]
 }
 
-// model snippets{
+model session {
+  id        Int    @id @default(autoincrement())
+  sessionid String @unique
+  race      race[]
+}
+
+model race {
+  id         Int     @id @default(autoincrement())
+  userid     Int
+  sessionid String  @unique
+  start      String?
+  end        String?
+  wpm        Int?
+  code       String
+  user       user    @relation(fields: [userid], references: [id])
+  session    session @relation(fields: [sessionid], references: [sessionid])
+}
+
+// // model snippets{
 //   id        Int     @id @default(autoincrement())
 //   code      String
 //   language  String

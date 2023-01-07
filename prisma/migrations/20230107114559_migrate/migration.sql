@@ -1,0 +1,2 @@
+-- DROP COLUMN
+ALTER TABLE "user" DROP COLUMN "races";

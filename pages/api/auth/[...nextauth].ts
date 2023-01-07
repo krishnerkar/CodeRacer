@@ -35,7 +35,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
               email: email || "",
               avatar: avatar || "",
               topspeed: 0,
-              races: {},
             },
           });
         } else {
