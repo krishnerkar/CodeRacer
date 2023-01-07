@@ -11,14 +11,15 @@ type raceSession = {
 
 type body = {
   text: string;
+  timestamp: number;
 };
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<raceSession>
 ) {
-  const timestamp = Date.now();
   const json = req.body as body;
+  const timestamp = json.timestamp;
   const correctText = json.text;
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
@@ -67,7 +68,7 @@ export default async function handler(
 
   const wpm = calculateSpeed(0, secondsPassed, correctText) + 1;
 
-  if (wpm > 150) {
+  if (wpm > 180) {
     res.status(400).json({
       error:
         "Stop cheating, if you didn't cheat, dm me @krishnerkar on twitter",

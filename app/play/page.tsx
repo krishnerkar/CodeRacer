@@ -125,6 +125,7 @@ export default function Play() {
         },
         body: JSON.stringify({
           text: correctText,
+          timestamp: Date.now(),
         }),
       }).then((res) => {
         if (res.status !== 200) {
@@ -209,6 +210,7 @@ export default function Play() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          timestamp: timestamp,
           code: code,
         }),
       }).then((res) => {

@@ -9,16 +9,18 @@ type raceSession = {
 };
 
 type body = {
-  githubId: string;
   code: string;
+  timestamp: number;
 };
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<raceSession>
 ) {
-  const timestamp = Date.now();
-  const json = req.body;
+  const json = req.body as body;
+  const timestamp = json.timestamp;
+  console.log(timestamp);
+
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
   const session = await unstable_getServerSession(req, res, authOptions);
