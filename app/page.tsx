@@ -10,19 +10,16 @@ import Logo from "@/components/Navbar/Logo";
 
 export default function Home() {
   return (
-    <main
-     
-      className={styles.main}
-    >
+    <main className={styles.main}>
       <div className={styles.desktop}>
         <div>
           <h1 className={`${inter.className} ${styles.heading}`}>
             Typing Challenges for Programmers
           </h1>
           <h2 className={`${inter.className} ${styles.subheading}`}>
-            Race to the Top with CodeRacer: The Premier Typing Test for
-            Programmers. Join the Community and Compete to be the Best. Improve
-            Your Coding Speed and Accuracy and Become the Ultimate CodeRacer
+            {
+              "Improve your programming speed with CodeRacer! As a programmer, your typing speed is crucial to your productivity. Don't waste your time typing out meaningless paragraphs - test your real coding speed with CodeRacer and see how you measure up."
+            }
           </h2>
           <StartChallengeButton />
         </div>
@@ -47,9 +44,10 @@ export default function Home() {
           }}
           className={`${inter.className} ${styles.subheading}`}
         >
-          Race to the Top with CodeRacer: The Premier Typing Test for
-          Programmers. Join the Community and Compete to be the Best. Improve
-          Your Coding Speed and Accuracy and Become the Ultimate CodeRacer
+          Improve your programming speed with CodeRacer! As a programmer, your
+          typing speed is crucial to your productivity. Don't waste your time
+          typing out meaningless paragraphs - test your real coding speed with
+          CodeRacer and see how you measure up.
         </h2>
         <StartChallengeButton />
       </div>
