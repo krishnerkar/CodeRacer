@@ -10,7 +10,14 @@ import Logo from "@/components/Navbar/Logo";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <motion.main
+      variants={pageAnimationVariants}
+      initial="hidden"
+      animate="enter"
+      exit="exit"
+      transition={{ type: "linear" }}
+      className={styles.main}
+    >
       <div className={styles.desktop}>
         <div>
           <h1 className={`${inter.className} ${styles.heading}`}>
@@ -51,6 +58,6 @@ export default function Home() {
         </h2>
         <StartChallengeButton />
       </div>
-    </main>
+    </motion.main>
   );
 }
