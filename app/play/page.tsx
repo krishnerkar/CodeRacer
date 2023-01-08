@@ -203,7 +203,7 @@ export default function Play() {
       secure: true,
     });
 
-    try {
+  try {
       fetch("/api/race/start", {
         method: "POST",
         headers: {
