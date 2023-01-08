@@ -19,8 +19,6 @@ export default async function handler(
 ) {
   const json = req.body as body;
   const timestamp = json.timestamp;
-  console.log(timestamp);
-
   const cookies = req.cookies;
   const sessionId = cookies["sessionId"];
   const session = await unstable_getServerSession(req, res, authOptions);

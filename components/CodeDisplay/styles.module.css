@@ -3,6 +3,9 @@
   line-height: 1.5;
   font-weight: 600;
   white-space: pre-wrap;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .typedChars {

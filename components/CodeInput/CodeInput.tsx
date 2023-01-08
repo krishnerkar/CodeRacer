@@ -1,4 +1,7 @@
+"use client";
+
 import { source_code } from "@/lib/fonts";
+import { useEffect } from "react";
 import styles from "./styles.module.css";
 
 export default function CodeInput({
@@ -14,6 +17,25 @@ export default function CodeInput({
   isRaceFinished: boolean;
   error: boolean;
 }) {
+  useEffect(() => {
+    if (document != null) {
+      const input = document.getElementById("input") as HTMLInputElement;
+      input?.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+      input?.addEventListener(
+        "select",
+        function () {
+          this.selectionStart = this.selectionEnd;
+        },
+        false
+      );
+      input?.addEventListener("paste", function (e) {
+        e.preventDefault();
+      });
+    }
+  }, []);
+
   return (
     <input
       autoFocus

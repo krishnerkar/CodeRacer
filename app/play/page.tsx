@@ -69,22 +69,6 @@ export default function Play() {
   }, [minutes]);
 
   useEffect(() => {
-    if (document != null) {
-      const input = document.getElementById("input") as HTMLInputElement;
-      input?.addEventListener("selectstart", function (e) {
-        e.preventDefault();
-      });
-      input?.addEventListener(
-        "select",
-        function () {
-          this.selectionStart = this.selectionEnd;
-        },
-        false
-      );
-    }
-  }, []);
-
-  useEffect(() => {
     if (correctRef.current) {
       highlightjs.highlightElement(correctRef.current);
     }
@@ -203,7 +187,7 @@ export default function Play() {
       secure: true,
     });
 
-  try {
+    try {
       fetch("/api/race/start", {
         method: "POST",
         headers: {
