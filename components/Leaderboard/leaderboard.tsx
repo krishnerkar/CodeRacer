@@ -35,7 +35,7 @@ export default function Leaderboard() {
         }}
         className={calSans.className}
       >
-        Leaderboard
+        leaderboard
       </h2>
 
       {loading ? (
