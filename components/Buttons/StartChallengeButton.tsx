@@ -1,4 +1,4 @@
-import { inter } from "@/lib/fonts";
+import { calSans } from "@/lib/fonts";
 import Image from "next/image";
 import styles from "./styles.module.css";
 import ArrowRightIcon from "@/public/icons/arrowRight.svg";
@@ -13,13 +13,13 @@ export default function StartChallengeButton() {
           <button
             
             style={{
-              padding: "15px 30px",
+              padding: "15px 100px",
               fontSize: "20px",
-              marginTop: "30px",
+              marginTop: "40px",
             }}
-            className={`${inter.className} ${styles.button}`}
+            className={`${calSans.className} ${styles.button}`}
           >
-            Start a challenge
+            play now
             <Image
               style={{
                 marginLeft: "15px",
@@ -41,7 +41,7 @@ export default function StartChallengeButton() {
               fontSize: "20px",
               marginTop: "50px",
             }}
-            className={`${inter.className} ${styles.button}`}
+            className={`${calSans.className} ${styles.button}`}
           >
             Start a challenge
             <Image
@@ -62,7 +62,7 @@ export default function StartChallengeButton() {
             color: "#ffffff",
             marginTop: "20px",
           }}
-          className={inter.className}
+          className={calSans.className}
         >
           Only availiable on desktop
         </h3>

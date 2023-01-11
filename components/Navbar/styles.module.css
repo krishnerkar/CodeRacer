@@ -1,6 +1,7 @@
 .container {
   display: flex;
-  margin: 30px;
+  margin: 80px;
+  margin-top: 50px;
   justify-content: space-between;
   align-items: center;
 }
@@ -9,6 +10,7 @@
   display: flex;
   font-size: 24px;
   font-weight: 800;
+  letter-spacing: 0.045em;
 }
 
 .email {

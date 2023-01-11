@@ -1,13 +1,14 @@
 .container {
-  background-color: #18181b;
+  background-color: #ffffff;
   margin-top: 100px;
   width: 100%;
   border-radius: 10px;
   padding: 50px 0px;
+  color: black;
 }
 
 .responsiveTable li {
-    border-radius: 3px;
+  border-radius: 3px;
   padding: 15px 50px;
   display: flex;
   justify-content: space-between;
@@ -39,5 +40,25 @@
 @media only screen and (max-width: 768px) {
   .container {
     display: none;
+  }
+}
+
+.spinner {
+  border: 2px solid rgb(0, 0, 0);
+  border-left-color: transparent;
+  border-radius: 50%;
+  border-top-color: transparent;
+  height: 20px;
+  width: 20px;
+  transition: opacity 0.15s 0.15s, width 0.15s, margin-left 0.15s;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -1,4 +1,4 @@
-import { inter } from "@/lib/fonts";
+import { calSans } from "@/lib/fonts";
 import Link from "next/link";
 import styles from "./styles.module.css";
 
@@ -6,7 +6,7 @@ export default function Logo() {
   return (
     <Link href="/">
       <div>
-        <p className={`${inter.className} ${styles.logo}`}>CodeRacer</p>
+        <p className={`${calSans.className} ${styles.logo}`}>coderacer</p>
       </div>
     </Link>
   );

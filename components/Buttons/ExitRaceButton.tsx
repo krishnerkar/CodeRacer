@@ -1,30 +1,29 @@
 import { inter, matter } from "@/lib/fonts";
 import styles from "./styles.module.css";
-import ResetIcon from "@/public/icons/reset.svg";
+import CrossIcon from "@/public/icons/cross.svg";
 import Image from "next/image";
 
-export default function ResetRaceButton({
-  resetRace,
-}: {
-  resetRace: () => void;
-}) {
+export default function ExitRaceButton() {
   return (
     <button
       style={{
         padding: "15px 30px",
         fontSize: "20px",
         marginTop: "30px",
+        background: "#DB5959",
       }}
       className={`${matter.className} ${styles.button}`}
-      onClick={resetRace}
+      onClick={() => {
+        window.location.href = "/";
+      }}
     >
-      retry challenge
+      exit challenge
       <Image
         style={{
           marginLeft: "15px",
         }}
-        src={ResetIcon}
-        alt="Reset"
+        src={CrossIcon}
+        alt="Arrow-Right"
         width={20}
         height={20}
       />

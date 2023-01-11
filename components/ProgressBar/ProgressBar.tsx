@@ -1,6 +1,6 @@
 'use client'
 
-import { inter } from "@/lib/fonts";
+import { calSans, inter } from "@/lib/fonts";
 import { useSession } from "next-auth/react";
 import styles from "./styles.module.css";
 
@@ -11,7 +11,7 @@ export default function ProgressBar({ width }: { width: number }) {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <p className={`${inter.className} ${styles.name}`}>
+        <p className={`${calSans.className} ${styles.name}`}>
           {session?.user?.name || "Guest"} 
         </p>
         <div className={styles.progress}>

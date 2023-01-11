@@ -3,21 +3,25 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import GithubIcon from "@/public/icons/github.svg";
 import { signIn } from "next-auth/react";
-import { inter } from "@/lib/fonts";
+import { inter, matter } from "@/lib/fonts";
+import { useState } from "react";
 
 export default function LoginButton() {
+  const [loading, setLoading] = useState(false);
+
   const onClick = () => {
-    signIn("github").then((res) => {
-    });
+    setLoading(true);
+    signIn("github").then((res) => {});
   };
   return (
     <button
+      disabled={loading}
       style={{
         fontSize: "18px",
         padding: "8px 15px",
       }}
       onClick={onClick}
-      className={`${inter.className} ${styles.button}`}
+      className={`${matter.className} ${styles.button}`}
     >
       <Image
         style={{
@@ -29,6 +33,13 @@ export default function LoginButton() {
         height={20}
       />
       Login
+      <div
+        style={{
+          marginLeft: "30px",
+          display: loading ? "block" : "none",
+        }}
+        className={styles.spinner}
+      />
     </button>
   );
 }

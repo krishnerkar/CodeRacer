@@ -22,12 +22,15 @@ export default async function handler(
     orderBy: {
       topspeed: "desc",
     },
+    take: 15,
     where: {
       topspeed: {
         not: 0,
       },
     },
   });
+
+  console.log(leaderboard);
 
   res.status(200).json(leaderboard);
 }

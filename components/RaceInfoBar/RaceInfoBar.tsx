@@ -1,5 +1,4 @@
-import { inter } from "@/lib/fonts";
-import InviteFriendsButton from "@/components/Buttons/InviteFriendsButton";
+import { calSans, inter, matter } from "@/lib/fonts";
 import styles from "./styles.module.css";
 import formatTime from "@/lib/time";
 
@@ -19,21 +18,21 @@ export default function RaceInfoBar({
           display: "flex",
         }}
       >
-        <p className={`${inter.className} ${styles.text}`}>
-          Elapsed Time: {formatTime(minutes, seconds)}
+        <p className={`${calSans.className} ${styles.text}`}>
+          <span style={{ color: "#656565" }}>time : </span>
+          {formatTime(minutes, seconds)}
         </p>
 
         <p
           style={{
             marginLeft: "60px",
           }}
-          className={`${inter.className} ${styles.text}`}
+          className={`${calSans.className} ${styles.text}`}
         >
-          Speed: {grossWPM} WPM
+          <span style={{ color: "#656565" }}>speed : </span>
+          {grossWPM} WPM
         </p>
       </div>
-
-      <InviteFriendsButton />
     </div>
   );
 }
