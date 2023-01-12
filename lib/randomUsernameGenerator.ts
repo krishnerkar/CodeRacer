@@ -11,8 +11,8 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export default function generateName() {
-  var name1 = [
+export default function generateName():string {
+  const name1 = [
     "abandoned",
     "able",
     "absolute",
@@ -86,7 +86,7 @@ export default function generateName() {
     "authentic",
     "authorized",
     "automatic",
-    "avaricious",
+    "aconsticious",
     "average",
     "aware",
     "awesome",
@@ -1363,7 +1363,7 @@ export default function generateName() {
     "rocky",
   ];
 
-  var name2 = [
+  const name2 = [
     "people",
     "history",
     "way",
@@ -2867,7 +2867,7 @@ export default function generateName() {
     "Lieuwe",
   ];
 
-  var name =
+  const name =
     capFirst(name1[getRandomInt(0, name1.length + 1)]) +
     capFirst(name2[getRandomInt(0, name2.length + 1)]);
 
