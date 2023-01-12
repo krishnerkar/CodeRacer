@@ -13,6 +13,7 @@
     "prisma:dev": "prisma migrate dev"
   },
   "dependencies": {
+    "canvas-confetti": "^1.5.1",
     "@next/font": "13.1.1",
     "@prisma/client": "^4.8.0",
     "@radix-ui/react-tooltip": "^1.0.2",
@@ -35,6 +36,8 @@
   "devDependencies": {
     "@types/howler": "^2.2.7",
     "@types/mixpanel-browser": "^2.38.0",
-    "prisma": "^4.8.0"
+    "prisma": "^4.8.0",
+    "@types/canvas-confetti": "^1.6.0"
+
   }
 }

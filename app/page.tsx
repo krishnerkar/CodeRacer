@@ -54,22 +54,48 @@ export default function Home() {
             marginTop: "80px",
             textAlign: "center",
           }}
-          className={`${inter.className} ${styles.heading}`}
+          className={`${calSans.className} ${styles.heading}`}
         >
-          Typing Challenges for Programmers
+          {"a typing game for people who write code </>"}
         </h1>
         <h2
           style={{
             textAlign: "center",
+            color: "#CECECE",
           }}
-          className={`${inter.className} ${styles.subheading}`}
+          className={`${matter.className} ${styles.subheading}`}
         >
-          Improve your programming speed with CodeRacer! As a programmer, your
-          typing speed is crucial to your productivity. Don't waste your time
-          typing out meaningless paragraphs - test your real coding speed with
-          CodeRacer and see how you measure up.
+          {
+            "as a programmer, you need to be able to type fast and accurately. don't waste your time typing meaningless paragraphs. test your true typing speed with coderacer and take your coding skills to the next level."
+          }
         </h2>
         <StartChallengeButton />
+        <div
+          className={`${matter.className} ${styles.mobile}`}
+          style={{
+            margin: "80px",
+            fontSize: "16px",
+            marginBottom: "0px",
+            display: "block",
+            textAlign: "center",
+          }}
+        >
+          Made by{" "}
+          <a
+            href="https://twitter.com/krishnerkar"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span
+              style={{
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              Krish Nerkar
+            </span>
+          </a>
+        </div>
       </div>
     </motion.main>
   );

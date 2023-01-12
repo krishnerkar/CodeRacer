@@ -15,11 +15,12 @@ import RaceInfoBar from "@/components/RaceInfoBar/RaceInfoBar";
 import CodeDisplay from "@/components/CodeDisplay/CodeDisplay";
 import CodeInput from "@/components/CodeInput/CodeInput";
 import ResetRaceButton from "@/components/Buttons/ResetRaceButton";
-import NextRaceButton from "@/components/Buttons/ExitRaceButton";
+import NextRaceButton from "@/components/Buttons/NextRaceButton";
 import { useSession } from "next-auth/react";
 import { inter } from "@/lib/fonts";
 import { toast, Toaster } from "react-hot-toast";
 import ExitRaceButton from "@/components/Buttons/ExitRaceButton";
+import generateName from "@/lib/randomUsernameGenerator";
 
 type Options = {
   expires?: number | Date;
@@ -42,6 +43,9 @@ export default function Play() {
   const [grossWPM, setGrossWPM] = useState(0);
   const [correctlyTypedCharacters, setCorrectlyTypedCharacters] = useState(0);
   const [code, setCode] = useState("");
+  const [fakeName, setFakeName] = useState("");
+
+  const [resetRaceVar, setResetRaceVar] = useState(false);
 
   const correctRef = useRef<HTMLSpanElement | null>(null);
   const soundsRef = useRef<Sounds>();
@@ -58,6 +62,8 @@ export default function Play() {
 
   useEffect(() => {
     const code = getSnippet();
+    const name = generateName();
+    setFakeName(name);
     setCode(code);
     setIsRaceFinished(false);
     setPercentageOfRaceFinished(0);
@@ -134,6 +140,7 @@ export default function Play() {
     setIsRaceFinished(false);
     pause();
     reset(undefined, false);
+    setResetRaceVar(!resetRaceVar);
   };
 
   const nextRace = () => {
@@ -285,11 +292,22 @@ export default function Play() {
       exit="exit"
       transition={{ type: "linear" }}
       className={styles.main}
+      style={{
+        minHeight: "55vh",
+      }}
     >
       <div className={styles.desktop}>
         {session != null && status === "authenticated" ? (
           <>
-            <ProgressBar width={percentageOfRaceFinished} />
+            <ProgressBar
+              width={percentageOfRaceFinished}
+              numberOfChars={characters.length}
+              isRunning={isRunning}
+              isFinished={isRaceFinished}
+              name={fakeName}
+              userTypedChars={correctText.length}
+              reset={resetRaceVar}
+            />
 
             <RaceInfoBar
               minutes={minutes}
@@ -326,7 +344,11 @@ export default function Play() {
 
             <div className={styles.buttonContainer}>
               <ResetRaceButton resetRace={resetRace} />
-              <ExitRaceButton />
+              {isRaceFinished ? (
+                <NextRaceButton nextRace={nextRace} />
+              ) : (
+                <ExitRaceButton />
+              )}
             </div>
 
             {/* <button onClick={endRace}>end race</button> */}
