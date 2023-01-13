@@ -10,17 +10,17 @@ export default function Head() {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
 
+      <meta name="image" property="og:image" content="/meta.png" />
+      <meta property="og:description" content="A Typing game for coders" />
+
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:creator" content="@krishnerkar" />
       <meta name="twitter:title" content="CodeRacer" />
       <meta name="twitter:description" content="A Typing game for coders" />
       <meta
         name="twitter:image:src"
-        content="https://repository-images.githubusercontent.com/584269693/c6e6191b-7727-4686-902b-712425834b69"
+        content="https://coderacer.tech/twitter-meta.png"
       ></meta>
-
-      <meta name="image" property="og:image" content="/meta.png" />
-      <meta property="og:description" content="A Typing game for coders" />
     </>
   );
 }
