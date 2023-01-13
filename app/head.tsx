@@ -17,7 +17,7 @@ export default function Head() {
       <meta name="twitter:creator" content="@krishnerkar" />
       <meta name="twitter:title" content="CodeRacer" />
       <meta name="twitter:description" content="A Typing game for coders" />
-      <meta name="twitter:image" content="https://coderacer.tech/meta.png"></meta>
+      <meta name="twitter:image" content="https://coderacer.tech/twitter-meta.png"></meta>
     </>
   );
 }
