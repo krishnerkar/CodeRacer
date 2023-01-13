@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { Providers } from "./providers";
 import styles from "./home.module.css";
 import { calSans, matter } from "@/lib/fonts";
+import { AnalyticsWrapper } from "./analytics";
 
 export default async function RootLayout({
   children,
@@ -38,6 +39,7 @@ export default async function RootLayout({
               <Navbar />
 
               {children}
+              <AnalyticsWrapper/>
               <br></br>
               <div
                 className={`${matter.className} ${styles.desktop}`}
