@@ -17,10 +17,7 @@ export default function Head() {
       <meta name="twitter:creator" content="@krishnerkar" />
       <meta name="twitter:title" content="CodeRacer" />
       <meta name="twitter:description" content="A Typing game for coders" />
-      <meta
-        name="twitter:image:src"
-        content="https://coderacer.tech/twitter-meta.png"
-      ></meta>
+      <meta name="twitter:image" content="http://graphics8.nytimes.com/images/2012/02/19/us/19whitney-span/19whitney-span-articleLarge.jpg"/>
     </>
   );
 }
